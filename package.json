@@ -1,0 +1,27 @@
+{
+  "name": "pos-api",
+  "version": "1.0.0",
+  "description": "API for POS & Admin",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "nodemon src/main.js"
+  },
+  "type": "module",
+  "author": "Aditya Dewantara",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.8.1",
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.2",
+    "joi": "^17.12.0",
+    "nodemon": "^3.0.3",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^4.17.21",
+    "@types/uuid": "^9.0.7",
+    "prisma": "^5.8.1"
+  }
+}

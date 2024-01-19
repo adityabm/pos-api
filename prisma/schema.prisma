@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @db.VarChar(200)
+  name       String   @db.VarChar(200)
+  token      String?  @db.VarChar(100)
+  password   String   @db.VarChar(200)
+  customerId Int
+  customer   Customer @relation(references: [id], fields: [customerId])
+  role       String   @db.VarChar(10)
+
+  @@map("users")
+}
+
+model Customer {
+  id       Int     @id @default(autoincrement())
+  name     String  @db.VarChar(200)
+  isActive Boolean @default(true)
+
+  users      User[]
+  products   Product[]
+  categories Category[]
+
+  @@map("customers")
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(500)
+  description String   @db.LongText
+  recipe      String?  @db.LongText
+  price       Int      @db.Int
+  customerId  Int
+  customer    Customer @relation(references: [id], fields: [customerId])
+  createdAt   DateTime @db.Timestamp(0)
+  updatedAt   DateTime @db.Timestamp(0)
+
+  productCategory    ProductCategory[]
+  productCustomPrice ProductCustomPrice[]
+
+  @@map("products")
+}
+
+model ProductCategory {
+  categoryId Int      @db.Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  productId  Int      @db.Int
+  product    Product  @relation(fields: [productId], references: [id])
+
+  @@unique([categoryId, productId])
+  @@map("product_categories")
+}
+
+model ProductCustomPrice {
+  id        Int     @id @default(autoincrement())
+  productId Int     @db.Int
+  product   Product @relation(fields: [productId], references: [id])
+  name      String  @db.VarChar(100)
+  price     Int?    @db.Int
+
+  @@map("product_custom_prices")
+}
+
+model Category {
+  id              Int               @id @default(autoincrement())
+  category        String            @db.VarChar(200)
+  customerId      Int
+  customer        Customer          @relation(references: [id], fields: [customerId])
+  ProductCategory ProductCategory[]
+
+  @@map("categories")
+}
