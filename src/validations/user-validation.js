@@ -12,4 +12,9 @@ const createUserValidation = Joi.object({
   customerId: Joi.number().required(),
 });
 
-export { createUserValidation };
+const loginValidation = Joi.object({
+  email: Joi.required(),
+  password: Joi.required(),
+});
+
+export { createUserValidation, loginValidation };

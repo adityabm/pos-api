@@ -5,6 +5,7 @@ import { validate } from "../../validations/validation.js";
 import bcrypt from "bcrypt";
 
 const createUser = async (request) => {
+  console.log(request);
   const user = validate(createUserValidation, request);
 
   const isUserExists = await prismaClient.user.findFirst({
